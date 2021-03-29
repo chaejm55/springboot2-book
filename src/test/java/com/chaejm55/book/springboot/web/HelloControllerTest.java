@@ -10,6 +10,8 @@ import org.springframework.test.web.servlet.ResultActions;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.hamcrest.Matchers.is;
 
 @RunWith(SpringRunner.class) // 스프링부트와 JUnit 사이를 연결함
 @WebMvcTest(controllers = HelloController.class) // Web에 집중할 수 있는 어노테이션, 컨트롤러만 사용가능
@@ -24,5 +26,19 @@ public class HelloControllerTest {
         mvc.perform(get("/hello")) // MockMvc로 get 요청, 체이닝으로 여러 검증 이어서 선언
                 .andExpect(status().isOk()) // Status 결과를 검증, 이 코드는 200 인지를 검증
                 .andExpect(content().string(hello)); // 응답 본문 내용을 검증, 이 코드는  "hello"
+    }
+
+    @Test
+    public void helloDto가_리턴된다() throws Exception{
+        String name = "hello";
+        int amount = 1000;
+
+        mvc.perform(
+                get("/hello/dto")
+                    .param("name", name) // API 테스트 시 사용될 요청 파라미터, String만 허용(변환 해야 함)
+                    .param("amount", String.valueOf(amount)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", is(name))) // JSON을 필드별로 검증하는 메서드, $로 필드명 명시
+                .andExpect(jsonPath("$.amount", is(amount)));
     }
 }
