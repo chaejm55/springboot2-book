@@ -31,5 +31,6 @@ dependencies {
     compile('com.h2database:h2') // 메모리에서 실행 재시작 마다 초기화->테스트에 좋음
     testCompile('org.springframework.boot:spring-boot-starter-test')
     compile('org.springframework.boot:spring-boot-starter-mustache')
+    compile('org.springframework.boot:spring-boot-starter-oauth2-client') // 소셜 로그인 관리용 의존성
 }
 
