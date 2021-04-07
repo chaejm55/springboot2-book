@@ -11,7 +11,7 @@ import org.springframework.security.oauth2.client.userinfo.CustomUserTypesOAuth2
 @RequiredArgsConstructor
 @EnableWebSecurity // 스프링 시큐리트 설정 활성화
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private final CustomUserTypesOAuth2UserService customUserTypesOAuth2UserService;
+    private final CustomOAuth2UserService customOAuth2UserService;
     
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -29,6 +29,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .oauth2Login() // 설정 진입점
                         .userInfoEndpoint() // 로그인 성공 후 사용자 정보를 가져올때의 설정
-                            .userService(customUserTypesOAuth2UserService); // 로그인 성공후 후속 조치를 실행할 구현체
+                            .userService(customOAuth2UserService); // 로그인 성공후 후속 조치를 실행할 구현체
     }
 }
